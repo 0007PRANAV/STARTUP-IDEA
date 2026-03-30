@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkillBridge — Real Work. Real Students. Real India.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0A0A0A;
+    --paper: #F5F2EC;
+    --accent: #FF4D1C;
+    --accent2: #FFB800;
+    --mid: #1A1A1A;
+    --muted: #6B6B6B;
+    --border: rgba(10,10,10,0.12);
+    --card: #FFFFFF;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transition: transform 0.15s ease;
+    mix-blend-mode: multiply;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transition: transform 0.08s ease, width 0.2s, height 0.2s;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: var(--paper);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    backdrop-filter: blur(8px);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.3rem;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  nav ul { list-style: none; display: flex; gap: 2.5rem; }
+  nav ul a {
+    font-size: 0.85rem; font-weight: 500;
+    color: var(--muted); text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+  nav ul a:hover { color: var(--ink); }
+  .nav-cta {
+    background: var(--ink); color: var(--paper) !important;
+    padding: 0.55rem 1.4rem;
+    border-radius: 2px;
+    font-size: 0.85rem !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--accent) !important; color: #fff !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 8rem 3rem 4rem;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(255,77,28,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--ink); color: var(--paper);
+    font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0.4rem 0.9rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+  .hero-badge .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 5.5vw, 5.5rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero p {
+    font-size: 1.05rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 440px;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    padding: 0.9rem 2rem;
+    border: none; border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 500;
+    cursor: none;
+    transition: transform 0.15s, background 0.2s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { transform: translateY(-2px); background: #e03d0d; }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    padding: 0.9rem 2rem;
+    border: 1.5px solid var(--ink); border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 500;
+    cursor: none;
+    transition: transform 0.15s, background 0.2s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-secondary:hover { background: var(--ink); color: var(--paper); transform: translateY(-2px); }
+
+  /* HERO RIGHT — LIVE PROJECT CARD */
+  .hero-right { position: relative; }
+  .project-feed {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 8px 8px 0px var(--ink);
+  }
+  .feed-header {
+    padding: 1rem 1.25rem;
+    background: var(--ink);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .feed-header span {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8rem; font-weight: 700;
+    color: var(--paper); letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .live-tag {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-size: 0.7rem; color: #4ade80; font-weight: 500;
+  }
+  .live-tag::before { content:''; width:6px;height:6px;background:#4ade80;border-radius:50%;animation:pulse 1.5s infinite; }
+  .project-card {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+    animation: slideIn 0.4s ease both;
+  }
+  .project-card:hover { background: #fafafa; }
+  @keyframes slideIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+  .project-card:nth-child(2){animation-delay:0.1s}
+  .project-card:nth-child(3){animation-delay:0.2s}
+  .project-card:nth-child(4){animation-delay:0.3s}
+  .project-card:last-child { border-bottom: none; }
+  .pc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.4rem; }
+  .pc-title { font-weight: 500; font-size: 0.9rem; color: var(--ink); }
+  .pc-budget {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 0.85rem;
+    color: var(--accent);
+    white-space: nowrap; margin-left: 1rem;
+  }
+  .pc-meta { font-size: 0.75rem; color: var(--muted); }
+  .pc-tag {
+    display: inline-block;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    font-size: 0.68rem; padding: 0.15rem 0.5rem;
+    border-radius: 2px; margin-top: 0.4rem; margin-right: 0.3rem;
+    color: var(--muted);
+  }
+  .float-stat {
+    position: absolute;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    box-shadow: 4px 4px 0 var(--ink);
+    font-size: 0.8rem;
+  }
+  .float-stat strong { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800; display: block; }
+  .float-stat-1 { top: -1.5rem; right: -1.5rem; }
+  .float-stat-2 { bottom: -1.5rem; left: -1.5rem; }
+
+  /* TICKER */
+  .ticker {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.65rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 25s linear infinite;
+    font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500;
+  }
+  @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .ticker-sep { color: var(--accent); margin: 0 1.5rem; }
+
+  /* HOW IT WORKS */
+  .section { padding: 7rem 3rem; }
+  .section-label {
+    font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    font-weight: 800; letter-spacing: -0.03em;
+    line-height: 1.05; margin-bottom: 1rem;
+  }
+  .section-sub {
+    font-size: 1rem; color: var(--muted);
+    max-width: 500px; line-height: 1.7; font-weight: 300;
+    margin-bottom: 4rem;
+  }
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+  .step {
+    padding: 2.5rem 2rem;
+    border-right: 1px solid var(--border);
+    position: relative;
+    transition: background 0.2s;
+  }
+  .step:last-child { border-right: none; }
+  .step:hover { background: var(--ink); color: var(--paper); }
+  .step:hover .step-num { color: var(--accent); }
+  .step:hover .step-title { color: var(--paper); }
+  .step:hover .step-desc { color: rgba(245,242,236,0.6); }
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 3.5rem; font-weight: 800;
+    color: var(--border);
+    line-height: 1; margin-bottom: 1.5rem;
+    transition: color 0.2s;
+  }
+  .step-title { font-weight: 500; font-size: 1rem; margin-bottom: 0.5rem; transition: color 0.2s; }
+  .step-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; transition: color 0.2s; font-weight: 300; }
+
+  /* FOR WHO */
+  .for-who {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 7rem 3rem;
+  }
+  .for-who .section-label { color: var(--accent2); }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 4rem; }
+  .who-card {
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 2.5rem;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .who-card:hover { border-color: var(--accent); }
+  .who-card::before {
+    content: attr(data-num);
+    position: absolute; top: -1px; left: 2.5rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: var(--accent); color: #fff;
+    padding: 0.2rem 0.6rem;
+  }
+  .who-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem; font-weight: 800;
+    margin: 1.5rem 0 1rem; letter-spacing: -0.02em;
+  }
+  .who-desc { font-size: 0.9rem; color: rgba(245,242,236,0.6); line-height: 1.7; font-weight: 300; margin-bottom: 1.5rem; }
+  .who-list { list-style: none; }
+  .who-list li {
+    font-size: 0.85rem; color: rgba(245,242,236,0.8);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .who-list li::before { content: '→'; color: var(--accent); font-size: 0.75rem; }
+
+  /* CATEGORIES */
+  .categories { padding: 7rem 3rem; }
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+  .cat-item {
+    background: var(--paper);
+    padding: 2rem;
+    transition: background 0.2s;
+    cursor: none;
+  }
+  .cat-item:hover { background: var(--accent); }
+  .cat-item:hover .cat-name { color: #fff; }
+  .cat-item:hover .cat-count { color: rgba(255,255,255,0.7); }
+  .cat-icon { font-size: 1.8rem; margin-bottom: 0.75rem; }
+  .cat-name { font-weight: 500; font-size: 0.95rem; margin-bottom: 0.25rem; transition: color 0.2s; }
+  .cat-count { font-size: 0.78rem; color: var(--muted); transition: color 0.2s; }
+
+  /* PRICING */
+  .pricing { padding: 7rem 3rem; background: var(--paper); }
+  .price-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 4rem; }
+  .price-card {
+    border: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+    background: var(--card);
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .price-card:hover { transform: translateY(-4px); box-shadow: 6px 6px 0 var(--ink); }
+  .price-card.featured {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .price-card.featured .price-desc { color: rgba(245,242,236,0.6); }
+  .price-card.featured .price-feature { border-color: rgba(255,255,255,0.1); color: rgba(245,242,236,0.8); }
+  .featured-badge {
+    position: absolute; top: -1px; left: 2rem;
+    background: var(--accent); color: #fff;
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+  }
+  .price-plan { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+  .price-card.featured .price-plan { color: rgba(245,242,236,0.5); }
+  .price-amount {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.8rem; font-weight: 800;
+    letter-spacing: -0.04em; line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+  .price-period { font-size: 0.82rem; color: var(--muted); margin-bottom: 1rem; font-weight: 300; }
+  .price-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.5rem; font-weight: 300; }
+  .price-features { list-style: none; margin-bottom: 2rem; }
+  .price-feature {
+    font-size: 0.83rem; padding: 0.55rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex; gap: 0.6rem; align-items: flex-start;
+    color: var(--mid); font-weight: 300;
+  }
+  .price-feature::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+
+  /* EARLY ACCESS FORM */
+  .early-access {
+    background: var(--ink);
+    padding: 7rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .early-access::before {
+    content: 'SKILLBRIDGE';
+    position: absolute;
+    font-family: 'Syne', sans-serif;
+    font-size: 18vw; font-weight: 800;
+    color: rgba(255,255,255,0.02);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    white-space: nowrap; pointer-events: none;
+    letter-spacing: -0.04em;
+  }
+  .early-access .section-label { color: var(--accent2); }
+  .early-access .section-title { color: var(--paper); max-width: 600px; margin: 0 auto 1rem; }
+  .early-access .section-sub { color: rgba(245,242,236,0.5); margin: 0 auto 3rem; }
+  .form-row {
+    display: flex; gap: 0; max-width: 480px; margin: 0 auto 1rem;
+    border: 1.5px solid rgba(255,255,255,0.2);
+  }
+  .form-row input {
+    flex: 1; padding: 0.9rem 1.2rem;
+    background: transparent; border: none; outline: none;
+    color: var(--paper); font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+  }
+  .form-row input::placeholder { color: rgba(245,242,236,0.3); }
+  .form-row button {
+    background: var(--accent); color: #fff;
+    border: none; padding: 0.9rem 1.6rem;
+    font-family: 'DM Sans', sans-serif; font-weight: 500;
+    font-size: 0.9rem; cursor: none;
+    transition: background 0.2s; white-space: nowrap;
+  }
+  .form-row button:hover { background: #e03d0d; }
+  .form-note { font-size: 0.75rem; color: rgba(245,242,236,0.3); margin-top: 0.75rem; }
+
+  .tabs { display: flex; gap: 0; margin-bottom: 3rem; border-bottom: 2px solid var(--border); }
+  .tab {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.85rem; font-weight: 500;
+    cursor: none; border-bottom: 2px solid transparent;
+    margin-bottom: -2px; color: var(--muted);
+    transition: all 0.2s;
+  }
+  .tab.active { border-bottom-color: var(--accent); color: var(--ink); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  footer p { font-size: 0.8rem; color: var(--muted); }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a { font-size: 0.8rem; color: var(--muted); text-decoration: none; }
+  .footer-links a:hover { color: var(--ink); }
+
+  /* STATS BAR */
+  .stats-bar {
+    padding: 4rem 3rem;
+    display: grid; grid-template-columns: repeat(4,1fr);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .stat-item { padding: 0 2rem; border-right: 1px solid var(--border); }
+  .stat-item:first-child { padding-left: 0; }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.8rem; font-weight: 800;
+    letter-spacing: -0.04em; color: var(--ink);
+  }
+  .stat-num span { color: var(--accent); }
+  .stat-label { font-size: 0.82rem; color: var(--muted); font-weight: 300; margin-top: 0.25rem; }
+
+  @media(max-width:900px){
+    nav { padding: 1rem 1.5rem; }
+    nav ul { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
+    .hero-right { display: none; }
+    .steps-grid { grid-template-columns: 1fr 1fr; }
+    .step { border-right: none; border-bottom: 1px solid var(--border); }
+    .two-col { grid-template-columns: 1fr; }
+    .cat-grid { grid-template-columns: 1fr 1fr; }
+    .price-grid { grid-template-columns: 1fr; }
+    .stats-bar { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .stat-item { border-right: none; padding: 0; }
+    .section { padding: 4rem 1.5rem; }
+    .for-who, .categories, .pricing, .early-access { padding: 4rem 1.5rem; }
+    footer { flex-direction: column; padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Skill<span>Bridge</span></a>
+  <ul>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#categories">Categories</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#early" class="nav-cta">Get early access</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge"><span class="dot"></span> Now live in India</div>
+    <h1>Real work.<br><em>Real students.</em><br>Real India.</h1>
+    <p>SkillBridge connects India's sharpest students with businesses that need real help — not CVs. Post a project, get matched, pay only for results.</p>
+    <div class="hero-actions">
+      <a href="#early" class="btn-primary">Post a project →</a>
+      <a href="#early" class="btn-secondary">Join as a student</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div style="position:relative; padding: 1.5rem 1.5rem 1.5rem 0;">
+      <div class="float-stat float-stat-1">
+        <strong>₹0</strong>
+        to get started
+      </div>
+      <div class="project-feed">
+        <div class="feed-header">
+          <span>Live projects</span>
+          <span class="live-tag">12 new today</span>
+        </div>
+        <div class="project-card">
+          <div class="pc-top">
+            <span class="pc-title">Design 5 Instagram posts for bakery</span>
+            <span class="pc-budget">₹600</span>
+          </div>
+          <div class="pc-meta">Posted 4 min ago · 3 applicants</div>
+          <span class="pc-tag">Design</span>
+          <span class="pc-tag">Social media</span>
+        </div>
+        <div class="project-card">
+          <div class="pc-top">
+            <span class="pc-title">Market research report — EdTech space</span>
+            <span class="pc-budget">₹1,200</span>
+          </div>
+          <div class="pc-meta">Posted 18 min ago · 7 applicants</div>
+          <span class="pc-tag">Research</span>
+          <span class="pc-tag">Business</span>
+        </div>
+        <div class="project-card">
+          <div class="pc-top">
+            <span class="pc-title">Edit 3 YouTube Shorts from raw footage</span>
+            <span class="pc-budget">₹800</span>
+          </div>
+          <div class="pc-meta">Posted 32 min ago · 11 applicants</div>
+          <span class="pc-tag">Video editing</span>
+        </div>
+        <div class="project-card">
+          <div class="pc-top">
+            <span class="pc-title">Build a simple landing page in HTML</span>
+            <span class="pc-budget">₹1,500</span>
+          </div>
+          <div class="pc-meta">Posted 1 hr ago · 5 applicants</div>
+          <span class="pc-tag">Coding</span>
+          <span class="pc-tag">Web</span>
+        </div>
+      </div>
+      <div class="float-stat float-stat-2">
+        <strong>15<span style="color:var(--accent)">%</span></strong>
+        platform fee only
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    Design &amp; Branding <span class="ticker-sep">✦</span> Market Research <span class="ticker-sep">✦</span> Video Editing <span class="ticker-sep">✦</span> Social Media <span class="ticker-sep">✦</span> Web Development <span class="ticker-sep">✦</span> Data Analysis <span class="ticker-sep">✦</span> Content Writing <span class="ticker-sep">✦</span> Business Strategy <span class="ticker-sep">✦</span> Design &amp; Branding <span class="ticker-sep">✦</span> Market Research <span class="ticker-sep">✦</span> Video Editing <span class="ticker-sep">✦</span> Social Media <span class="ticker-sep">✦</span> Web Development <span class="ticker-sep">✦</span> Data Analysis <span class="ticker-sep">✦</span> Content Writing <span class="ticker-sep">✦</span> Business Strategy <span class="ticker-sep">✦</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">500<span>+</span></div>
+    <div class="stat-label">Students on waitlist</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">₹0</div>
+    <div class="stat-label">Cost to get started</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">48<span>hr</span></div>
+    <div class="stat-label">Average first match</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">15<span>%</span></div>
+    <div class="stat-label">Only fee we charge</div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="section-label">How it works</div>
+  <div class="section-title">Four steps.<br>Zero friction.</div>
+  <p class="section-sub">No long onboarding. No agency fees. No ghosting. Just real projects, real students, real results.</p>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('business')">For businesses</div>
+    <div class="tab" onclick="switchTab('student')">For students</div>
+  </div>
+
+  <div class="tab-content active" id="tab-business">
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Post your project</div>
+        <div class="step-desc">Describe the task, set a budget, and choose a deadline. Takes 2 minutes. No account needed to browse.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Get matched</div>
+        <div class="step-desc">Students apply with portfolios. You see their skills, reviews, and past work — not just a CV.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Work together</div>
+        <div class="step-desc">Chat directly, share files, track progress — all inside SkillBridge. No WhatsApp chaos.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-title">Pay on delivery</div>
+        <div class="step-desc">Funds are held securely. Released only when you approve the work. Zero risk to you.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="tab-student">
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Build your profile</div>
+        <div class="step-desc">Add your skills, portfolio links, and what you're looking for. Free forever, no subscription.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Browse and apply</div>
+        <div class="step-desc">Filter by category, budget, and timeline. Apply in one click with a short pitch and your portfolio.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Deliver great work</div>
+        <div class="step-desc">Complete the project, submit deliverables, and collect your review. Every project builds your credibility.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-title">Get paid via UPI</div>
+        <div class="step-desc">Money hits your account within 24 hours of approval. Real rupees, not experience certificates.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOR WHO -->
+<section class="for-who" id="forwho">
+  <div class="section-label">Who it's for</div>
+  <div class="section-title" style="color:var(--paper)">Built for both sides<br>of the gap.</div>
+  <div class="two-col">
+    <div class="who-card" data-num="Students">
+      <div class="who-title">You have skills.<br>Now get paid.</div>
+      <p class="who-desc">Every internship wants experience. But how do you get experience without one? SkillBridge breaks the cycle — do real projects, earn real money, build a real portfolio.</p>
+      <ul class="who-list">
+        <li>Designers, coders, editors, writers</li>
+        <li>No minimum experience required</li>
+        <li>Work on your own schedule</li>
+        <li>Build a verified portfolio businesses trust</li>
+        <li>Get paid in 24 hours via UPI</li>
+      </ul>
+    </div>
+    <div class="who-card" data-num="Businesses">
+      <div class="who-title">Stop drowning<br>in bad CVs.</div>
+      <p class="who-desc">You don't need a full-time hire for a 2-week project. Get affordable, skilled student talent — vetted, rated, and ready — without the overhead of hiring.</p>
+      <ul class="who-list">
+        <li>Small businesses, D2C brands, coaches</li>
+        <li>YouTubers, local shops, startups</li>
+        <li>Pay only when work is approved</li>
+        <li>Average project cost under ₹1,500</li>
+        <li>Replace 3 agency meetings with 1 post</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories" id="categories">
+  <div class="section-label">Categories</div>
+  <div class="section-title">Whatever you need.<br>Someone here does it.</div>
+  <div class="cat-grid">
+    <div class="cat-item">
+      <div class="cat-icon">🎨</div>
+      <div class="cat-name">Design & Branding</div>
+      <div class="cat-count">Logos, social posts, UI mockups</div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-icon">💻</div>
+      <div class="cat-name">Web & App Dev</div>
+      <div class="cat-count">Landing pages, scripts, bots</div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-icon">📹</div>
+      <div class="cat-name">Video Editing</div>
+      <div class="cat-count">Reels, Shorts, YouTube cuts</div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-icon">✍️</div>
+      <div class="cat-name">Content Writing</div>
+      <div class="cat-count">Blogs, captions, scripts</div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-icon">📊</div>
+      <div class="cat-name">Research & Data</div>
+      <div class="cat-count">Market research, Excel, reports</div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-icon">📱</div>
+      <div class="cat-name">Social Media</div>
+      <div class="cat-count">Strategy, scheduling, growth</div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-icon">🧠</div>
+      <div class="cat-name">Business Strategy</div>
+      <div class="cat-count">Decks, plans, competitor analysis</div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-icon">🤖</div>
+      <div class="cat-name">AI & Automation</div>
+      <div class="cat-count">Workflows, prompts, integrations</div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-icon">📣</div>
+      <div class="cat-name">Marketing</div>
+      <div class="cat-count">Ads, email, campaigns</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-label">Pricing</div>
+  <div class="section-title">Simple. Honest.<br>No surprises.</div>
+  <p class="section-sub">We only make money when you do. 15% platform fee on completed projects. That's it.</p>
+  <div class="price-grid">
+    <div class="price-card">
+      <div class="price-plan">Student — Free</div>
+      <div class="price-amount">₹0</div>
+      <div class="price-period">forever free to browse & apply</div>
+      <p class="price-desc">Everything you need to start earning from your skills right now.</p>
+      <ul class="price-features">
+        <li class="price-feature">Apply to unlimited projects</li>
+        <li class="price-feature">Verified student profile</li>
+        <li class="price-feature">In-app messaging</li>
+        <li class="price-feature">UPI payouts in 24 hours</li>
+        <li class="price-feature">Portfolio showcase page</li>
+      </ul>
+      <a href="#early" class="btn-secondary" style="display:block;text-align:center">Join as student</a>
+    </div>
+    <div class="price-card featured">
+      <div class="featured-badge">Most popular</div>
+      <div class="price-plan">Business — Pay per project</div>
+      <div class="price-amount">15%</div>
+      <div class="price-period">fee only on completed & approved work</div>
+      <p class="price-desc">Post free. Pay nothing until you approve the final delivery.</p>
+      <ul class="price-features">
+        <li class="price-feature">Unlimited project posts</li>
+        <li class="price-feature">Escrow payment protection</li>
+        <li class="price-feature">Verified student profiles</li>
+        <li class="price-feature">Progress tracking</li>
+        <li class="price-feature">Review & rating system</li>
+      </ul>
+      <a href="#early" class="btn-primary" style="display:block;text-align:center">Post a project</a>
+    </div>
+    <div class="price-card">
+      <div class="price-plan">Institution / Tuition — Pro</div>
+      <div class="price-amount">₹2k</div>
+      <div class="price-period">per month, bulk student access</div>
+      <p class="price-desc">For coaching centres and colleges wanting to connect their students to real work.</p>
+      <ul class="price-features">
+        <li class="price-feature">Bulk student onboarding</li>
+        <li class="price-feature">Institution dashboard</li>
+        <li class="price-feature">Reduced platform fees</li>
+        <li class="price-feature">Monthly analytics report</li>
+        <li class="price-feature">Dedicated account support</li>
+      </ul>
+      <a href="#early" class="btn-secondary" style="display:block;text-align:center">Contact us</a>
+    </div>
+  </div>
+</section>
+
+<!-- EARLY ACCESS -->
+<section class="early-access" id="early">
+  <div class="section-label">Early access</div>
+  <div class="section-title">Be the first.<br>Shape what we build.</div>
+  <p class="section-sub">We're onboarding our first 500 students and 100 businesses manually. If you're in, you get zero platform fees for your first 3 projects.</p>
+  <div class="tabs" style="justify-content:center;border-color:rgba(255,255,255,0.1)">
+    <div class="tab active" style="color:rgba(245,242,236,0.5)" id="t-student" onclick="switchEarlyTab('student')">I'm a student</div>
+    <div class="tab" style="color:rgba(245,242,236,0.5)" id="t-business" onclick="switchEarlyTab('business')">I'm a business</div>
+  </div>
+  <div id="early-student">
+    <div class="form-row">
+      <input type="text" placeholder="Your name">
+      <input type="text" placeholder="Email or WhatsApp number" style="border-left:1px solid rgba(255,255,255,0.1)">
+      <button onclick="handleSignup('student')">Join waitlist →</button>
+    </div>
+    <p class="form-note">No spam. We'll DM you personally when your spot is ready.</p>
+  </div>
+  <div id="early-business" style="display:none">
+    <div class="form-row">
+      <input type="text" placeholder="Your business name">
+      <input type="text" placeholder="Email or WhatsApp number" style="border-left:1px solid rgba(255,255,255,0.1)">
+      <button onclick="handleSignup('business')">Get early access →</button>
+    </div>
+    <p class="form-note">First 3 projects at 0% platform fee. No card required.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="logo">Skill<span>Bridge</span></a>
+  <p>© 2025 SkillBridge. Built by students, for students.</p>
+  <div class="footer-links">
+    <a href="#">Instagram</a>
+    <a href="#">LinkedIn</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
+
+<script>
+// Cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cursor.style.transform=`translate(${mx-6}px,${my-6}px)`;
+});
+function animRing(){
+  rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+  ring.style.transform=`translate(${rx-18}px,${ry-18}px)`;
+  requestAnimationFrame(animRing);
+}
+animRing();
+document.querySelectorAll('a,button,.tab,.cat-item,.step,.who-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='52px';ring.style.height='52px';cursor.style.transform+=` scale(1.5)`;});
+  el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';});
+});
+
+// Tabs
+function switchTab(type){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-'+type).classList.add('active');
+}
+
+function switchEarlyTab(type){
+  ['student','business'].forEach(t=>{
+    document.getElementById('t-'+t).classList.toggle('active',t===type);
+    document.getElementById('early-'+t).style.display=t===type?'block':'none';
+  });
+}
+
+// Signup
+function handleSignup(type){
+  const row = document.getElementById('early-'+type).querySelector('.form-row');
+  const inputs = row.querySelectorAll('input');
+  const name = inputs[0].value.trim();
+  const contact = inputs[1].value.trim();
+  if(!name||!contact){
+    row.style.borderColor='var(--accent)';
+    setTimeout(()=>row.style.borderColor='rgba(255,255,255,0.2)',1500);
+    return;
+  }
+  row.innerHTML='<p style="padding:1rem 1.5rem;color:#4ade80;font-weight:500;font-size:0.9rem">✓ You\'re on the list, '+name+'! We\'ll reach out soon.</p>';
+}
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) e.target.style.opacity='1',e.target.style.transform='none';
+  });
+},{threshold:0.1});
+document.querySelectorAll('.step,.who-card,.cat-item,.price-card,.stat-item').forEach(el=>{
+  el.style.opacity='0';
+  el.style.transform='translateY(20px)';
+  el.style.transition='opacity 0.5s ease, transform 0.5s ease';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>
